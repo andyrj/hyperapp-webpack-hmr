@@ -15,21 +15,34 @@ npm i hyperapp-webpack-hmr
 
 Start by loading persist in `plugins`
 
-```js
+```jsx
+/* myApp.jsx */
 var { h, app } = require('hyperapp')
 var hmr = require('hyperapp-webpack-hmr')
 
-app({
-  // Load persist plugin
-  plugins: [ hmr({name: 'state'}) ], // will store state in window.state by default
-```
-
-Then in your module.hot.accept, you will need to add something along these lines 
-
-```js
-  module.hot.accept('./myApp', function() {
-
+module.exports = function myApp(initState) {
+	app({
+		state: initState,
+		view: (state) => <div>{count}</div>,
+		plugins: [hmr({ name: 'state' })] // will store state in window.state by default via hmr()
 	})
+}
 ```
+
+Then in your module.hot.accept, you will need to add something along these lines
+```js
+/* index.js */
+var myApp = require('./myApp')
+
+myApp({ count:0 })
+
+if (module.hot) {
+	module.hot.accept('./myApp', function(){
+		document.body.innerHTML = ''
+		myApp(window.state)
+	})
+}
+
+``` 
 
 A full webpack HMR example using this mixin's can be found in the following repo [https://github.com/andyrj/hyperapp-starter](andyrj/hyperapp-starter) 

@@ -45,4 +45,4 @@ if (module.hot) {
 
 ``` 
 
-A full webpack HMR example using this mixin's can be found in the following repo [https://github.com/andyrj/hyperapp-starter](andyrj/hyperapp-starter) 
+A full webpack HMR example using this mixin's can be found in the following repo [andyrj/hyperapp-starter](https://github.com/andyrj/hyperapp-starter) 

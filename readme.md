@@ -21,11 +21,11 @@ var { h, app } = require('hyperapp')
 var hmr = require('hyperapp-webpack-hmr')
 
 module.exports = function myApp(initState) {
-	app({
-		state: initState,
-		view: (state) => <div>{count}</div>,
-		plugins: [hmr({ name: 'state' })] // will store state in window.state by default via hmr()
-	})
+  app({
+    state: initState,
+    view: (state) => <div>{count}</div>,
+    plugins: [hmr({ name: 'state' })] // will store state in window.state by default via hmr()
+  })
 }
 ```
 
@@ -37,10 +37,10 @@ var myApp = require('./myApp')
 myApp({ count:0 })
 
 if (module.hot) {
-	module.hot.accept('./myApp', function(){
-		document.body.innerHTML = ''
-		myApp(window.state)
-	})
+  module.hot.accept('./myApp', function(){
+    document.body.innerHTML = ''
+    myApp(window.state)
+  })
 }
 
 ``` 

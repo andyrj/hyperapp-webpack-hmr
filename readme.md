@@ -3,6 +3,8 @@
 
 > Maintain hyperapp state during Webpack Hot Module Reloads
 
+* NOTE: requires hyperapp >= 0.9.3
+
 A [hyperapp](https://github.com/hyperapp/hyperapp) [plugin](https://github.com/hyperapp/hyperapp/blob/master/docs/core.md#plugins) that stores the app's state in a global variable so that you can maintain your state during Webpack's Hot Module Reloading.
 
 ## Install

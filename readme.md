@@ -15,7 +15,7 @@ npm i hyperapp-webpack-hmr
 
 ## Usage
 
-Start by loading persist in `plugins`
+Start by loading hmr in mixins
 
 ```jsx
 /* myApp.jsx */

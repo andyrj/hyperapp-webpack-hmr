@@ -13,7 +13,7 @@ module.exports = function hmr(options) {
   return function(app) {
     return {
       events: {
-        ready: function(state, actions) {
+        load: function(state, actions) {
           updateGlobalState(storageName, state);
         },
         update: function(state, actions, data) {

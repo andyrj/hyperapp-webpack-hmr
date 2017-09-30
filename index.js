@@ -10,16 +10,18 @@ module.exports = function hmr(options) {
     storageName = options.name;
   }
 
-  return function(app) {
+  return function(props) {
     return {
-      events: {
-        load: function(state, actions) {
+      hooks: [
+        function(state, actions) {
           updateGlobalState(storageName, state);
-        },
-        update: function(state, actions, data) {
-          updateGlobalState(storageName, data);
+          return function() {
+            return function(nextState) {
+              updateGlobalState(storageName, data);
+            }
+          }
         }
-      }
+      ]
     };
   };
 };

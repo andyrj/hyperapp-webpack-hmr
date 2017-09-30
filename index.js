@@ -17,7 +17,7 @@ module.exports = function hmr(options) {
           updateGlobalState(storageName, state);
           return function() {
             return function(nextState) {
-              updateGlobalState(storageName, data);
+              updateGlobalState(storageName, nextState);
             }
           }
         }

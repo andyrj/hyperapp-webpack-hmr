@@ -3,10 +3,6 @@
 
 > Maintain hyperapp state during Webpack Hot Module Reloads
 
-* NOTE: hyperapp version >= 0.11 requires version 1.0.3 of this package
-
-A [hyperapp](https://github.com/hyperapp/hyperapp) [plugin](https://github.com/hyperapp/hyperapp/blob/master/docs/core.md#plugins) that stores the app's state in a global variable so that you can maintain your state during Webpack's Hot Module Reloading.
-
 ## Install
 
 ```sh
@@ -23,11 +19,14 @@ var { h, app } = require('hyperapp')
 var hmr = require('hyperapp-webpack-hmr')
 
 module.exports = function myApp(initState) {
-  app({
-    state: initState,
-    view: (state) => <div>{count}</div>,
-    plugins: [hmr({ name: 'state' })] // will store state in window.state by default via hmr()
-  })
+  return hmr(app)(
+    initState,
+    {
+      increment: () => state => ({ count: state.count + 1 }),
+      decrement: () => state => ({ count: state.count - 1})
+    },
+    (state) => <div>{count}</div>
+  );
 }
 ```
 
@@ -36,15 +35,15 @@ Then in your module.hot.accept, you will need to add something along these lines
 /* index.js */
 var myApp = require('./myApp')
 
-myApp({ count:0 })
+myApp({ count: 0 })
 
 if (module.hot) {
   module.hot.accept('./myApp', function(){
     document.body.innerHTML = ''
-    myApp(window.state)
+    myApp(window.hmrState)
   })
 }
 
 ``` 
 
-A full webpack HMR example using this mixin's can be found in the following repo [andyrj/hyperapp-starter](https://github.com/andyrj/hyperapp-starter) 
+A full webpack HMR example using this HOA can be found in the following repo [andyrj/hyperapp-starter](https://github.com/andyrj/hyperapp-starter) 

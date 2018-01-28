@@ -2,7 +2,7 @@
   "name": "hyperapp-webpack-hmr",
   "description": "Maintain state during Webpack HMR",
   "author": "Andy Johnson <andyrjohnson82@gmail.com>",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "license": "MIT",
   "repository": {
     "type": "git",

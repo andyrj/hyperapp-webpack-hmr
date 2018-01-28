@@ -10,7 +10,7 @@ module.exports = function hmr(app) {
     Object.keys(actions).forEach(function(key) {
       var action = actions[key];
       newActions[key] = function() {
-        var result = action.apply(this, arguments);
+        var result = typeof action === "function" ? action.apply(this, arguments) : action;
         updateGlobalState(storageName, actions.getState());
         return result;
       }

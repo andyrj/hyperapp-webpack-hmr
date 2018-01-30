@@ -4,7 +4,7 @@ function updateGlobalState(name, data) {
 
 module.exports = function hmr(app) {
   return function (state, actions, view, container) {
-    let result;
+    let ret;
     const newActions = {};
     var storageName = "hmrState";
     updateGlobalState(storageName, state);
@@ -12,7 +12,7 @@ module.exports = function hmr(app) {
       var action = actions[key];
       newActions[key] = function() {
         var result = typeof action === "function" ? action.apply(this, arguments) : action;
-        updateGlobalState(storageName, result.getState());
+        updateGlobalState(storageName, ret.getState());
         return result;
       }
     });
@@ -21,7 +21,7 @@ module.exports = function hmr(app) {
         return state;
       };
     }
-    result = app(state, newActions, view, container);
-    return result;
+    ret = app(state, newActions, view, container);
+    return ret;
   }
 };

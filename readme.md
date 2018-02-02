@@ -1,49 +1,39 @@
 
 # hyperapp-webpack-hmr
 
-> Maintain hyperapp state during Webpack Hot Module Reloads
+> *DEPRECATED* Readme now contains example usage of hyperapp with webpack-hmr, this package is no longer needed
 
-## Install
+## Example Usage
 
-```sh
-npm i hyperapp-webpack-hmr
-```
+1. Setup webpack for hmr as specified in their documentation.
 
-## Usage
-
-Start by loading hmr in mixins
-
-```jsx
-/* myApp.jsx */
+2. Basically you need to make it so your whole app will be re-instantiated on top of your currently rendered output which will use the built-in hydration.  The only requirement of your app is you provide a getState() action that returns the current state for access in our module.hot code.
+```js
+/* myApp.js */
 var { h, app } = require('hyperapp')
-var hmr = require('hyperapp-webpack-hmr')
-
 module.exports = function myApp(initState) {
-  return hmr(app)(
+  return app(
     initState,
     {
+      getState: () => state => state,
       increment: () => state => ({ count: state.count + 1 }),
       decrement: () => state => ({ count: state.count - 1})
     },
-    (state) => <div>{count}</div>
+    (state) => h("div", {}, count)
   );
 }
 ```
-
-Then in your module.hot.accept, you will need to add something along these lines
+To complete the hmr setup your entry point should have something like the following.
 ```js
 /* index.js */
 var myApp = require('./myApp')
 
-myApp({ count: 0 })
+var appActions = myApp({ count: 0 })
 
 if (module.hot) {
   module.hot.accept('./myApp', function(){
-    document.body.innerHTML = ''
-    myApp(window.hmrState)
+    appActions = myApp(appActions.getState())
   })
 }
 
 ``` 
-
-A full webpack HMR example using this HOA can be found in the following repo [andyrj/hyperapp-starter](https://github.com/andyrj/hyperapp-starter) 
